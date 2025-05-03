@@ -1,0 +1,44 @@
+<%- include('partials/header') %>
+
+<div class="container">
+  <h1>Edit Book</h1>
+  
+  <form method="POST" action="/edit/<%= book.id %>" class="book-form">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" id="title" name="title" required value="<%= book.title %>">
+    </div>
+    
+    <div class="form-group">
+      <label for="author">Author</label>
+      <input type="text" id="author" name="author" required value="<%= book.author %>">
+    </div>
+    
+    <div class="form-group">
+      <label for="isbn">ISBN (Optional - for book covers)</label>
+      <input type="text" id="isbn" name="isbn" value="<%= book.isbn || '' %>">
+    </div>
+    
+    <div class="form-group">
+      <label for="rating">Rating (1-10)</label>
+      <input type="number" id="rating" name="rating" min="1" max="10" required value="<%= book.rating %>">
+    </div>
+    
+    <div class="form-group">
+      <label for="date_read">Date Read</label>
+      <input type="date" id="date_read" name="date_read" required value="<%= book.date_read ? book.date_read.toISOString().split('T')[0] : '' %>">
+    </div>
+    
+    <div class="form-group">
+      <label for="notes">Notes</label>
+      <textarea id="notes" name="notes" rows="10" required><%= book.notes %></textarea>
+    </div>
+    
+    <div class="form-buttons">
+      <button type="submit" class="btn">Update Book</button>
+      <a href="/" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<%- include('partials/footer') %>

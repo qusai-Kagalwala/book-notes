@@ -1,0 +1,52 @@
+<%- include('partials/header') %>
+
+<div class="container">
+  <div class="header-section">
+    <h1>My Book Notes</h1>
+    <a href="/add" class="btn">Add New Book</a>
+  </div>
+  
+  <div class="sort-options">
+    <span>Sort by:</span>
+    <a href="/?sort=rating" class="sort-link <%= sortBy === 'rating' ? 'active' : '' %>">Rating</a>
+    <a href="/?sort=date_read" class="sort-link <%= sortBy === 'date_read' ? 'active' : '' %>">Date Read</a>
+    <a href="/?sort=title" class="sort-link <%= sortBy === 'title' ? 'active' : '' %>">Title</a>
+  </div>
+
+  <% if (typeof error !== 'undefined') { %>
+    <div class="error"><%= error %></div>
+  <% } %>
+
+  <div class="books-grid">
+    <% books.forEach(book => { %>
+      <div class="book-card">
+        <div class="book-cover">
+          <% if (book.isbn) { %>
+            <img src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-M.jpg" alt="<%= book.title %> cover" loading="lazy">
+          <% } else { %>
+            <div class="no-cover">No Cover</div>
+          <% } %>
+        </div>
+        <div class="book-details">
+          <h2><%= book.title %></h2>
+          <h3>by <%= book.author %></h3>
+          <div class="book-meta">
+            <span class="rating">★ <%= book.rating %>/10</span>
+            <span class="date"><%= new Date(book.date_read).toLocaleDateString() %></span>
+          </div>
+          <div class="book-notes">
+            <%= book.notes %>
+          </div>
+          <div class="book-actions">
+            <a href="/edit/<%= book.id %>" class="btn btn-small">Edit</a>
+            <form method="POST" action="/delete/<%= book.id %>" class="delete-form">
+              <button type="submit" class="btn btn-danger btn-small" onclick="return confirm('Are you sure you want to delete this book?')">Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
